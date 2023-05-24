@@ -36,7 +36,7 @@ export default function Movies() {
         <button type="submit">Search</button>
       </form>
       {filmInfo.map(({title, id, poster_path}) => (
-        <Link to={`${title}`} key={id}>
+        <Link to={`${id}`} key={id}>
           <h1>{title}</h1>
           <img
             src={`${BASE_IMG_URL}w500${poster_path}`}
