@@ -21,11 +21,14 @@ export default function MovieDetails() {
     GetMovieDetainls(movieId);
   }, [movieId]);
 
+  const{title, overview, budget, revenue, poster_path, genres, runtime} = movieData;
   return (
+    
     <div>
-      <h1>{movieData.title}</h1>
+      
+      <h1>{title}</h1>
       <img
-        src={`${BASE_IMG_URL}/w500${movieData.poster_path}`}
+        src={`${BASE_IMG_URL}/w500${poster_path}`}
         width="350"
         height="400"
         alt=""
@@ -34,22 +37,22 @@ export default function MovieDetails() {
         Overview
       </h2>
       <p>
-        {movieData.overview}</p>
+        {overview}</p>
       <p>
-        Budget: {movieData.budget}$ <br />
-        Revenue: {movieData.revenue}$
+        Budget: {budget}$ <br />
+        Revenue: {revenue}$
       </p>
       
       <h2>Genres</h2>
       <ul>
         
-        {movieData.genres &&
+        {genres &&
         
-        movieData.genres.map(genre => {
-          return <li key={genre.id}>{genre.name}</li>;
+        genres.map(({id, name}) => {
+          return <li key={id}>{name}</li>;
         })}
       </ul>
-      <p>Runtime: {movieData.runtime} min</p>
+      <p>Runtime: {runtime} min</p>
       <ul>
         <li>
           <Link to={"cast"}>Credits</Link>

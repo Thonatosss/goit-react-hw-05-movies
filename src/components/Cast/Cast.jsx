@@ -23,7 +23,17 @@ export default function Cast() {
     <div>
       <ul>
         {credits.cast &&
-          credits.cast.map(actor => <li key={actor.id}> <img  src={`${BASE_IMG_URL}/w500${actor.profile_path}`} alt="" width="150" height="200" /> <br /> {actor.name} ({actor.character}) </li>)}
+          credits.cast.map(({ id, profile_path, name, character }) => (
+            <li key={id}>
+              <img
+                src={`${BASE_IMG_URL}/w500${profile_path}`}
+                alt=""
+                width="150"
+                height="200"
+              />
+              <br /> {name} ({character})
+            </li>
+          ))}
       </ul>
     </div>
   );

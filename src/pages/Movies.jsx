@@ -1,21 +1,22 @@
 import axios from 'axios';
 import { BASE_URL, API_KEY, BASE_IMG_URL } from 'Constants/constants';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams  } from 'react-router-dom';
 
 export default function Movies() {
-  const [searchQuerry, setSearchQuerry] = useState('');
+  const[searchParams, setSearchParams] = useSearchParams();
   const [filmInfo, setFilmInfo] = useState([]);
 
   const handleSearchQuerry = event => {
-    setSearchQuerry(event.target.value.toLowerCase());
+    event.target.value === "" ? setSearchParams({}) : setSearchParams(({querry: event.target.value}));
+    
   };
 
   async function handleSearchMovie(event) {
     event.preventDefault();
     try {
       const response = await axios.get(
-        `${BASE_URL}search/movie?query=${searchQuerry}&api_key=${API_KEY}`
+        `${BASE_URL}search/movie?query=${searchParams.get('querry')}&api_key=${API_KEY}`
       );
       setFilmInfo(response.data.results);
     } catch (error) {
@@ -28,7 +29,7 @@ export default function Movies() {
       <form onSubmit={handleSearchMovie}>
         <input
           type="text"
-          value={searchQuerry}
+          value={searchParams.get('querry') === null ? '' : searchParams.get('querry')}
           name="searchQuerry"
           placeholder="search a movie"
           onChange={handleSearchQuerry}
