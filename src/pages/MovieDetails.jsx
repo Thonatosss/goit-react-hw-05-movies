@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { BASE_URL, API_KEY, BASE_IMG_URL } from 'constants/constants';
 
 export default function MovieDetails() {
   const [movieData, setMovieData] = useState([]);
   const { movieId } = useParams();
+  const location = useLocation();
+  const goBack = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
     async function GetMovieDetainls(movieId) {
@@ -23,8 +25,11 @@ export default function MovieDetails() {
 
   const { title, overview, budget, revenue, poster_path, genres, runtime } =
     movieData;
+  console.log(location);
+  console.log(goBack);
   return (
     <div>
+      <Link to={goBack.current}>Go back</Link>
       <h1>{title}</h1>
       <img
         src={`${BASE_IMG_URL}/w500${poster_path}`}
@@ -55,7 +60,9 @@ export default function MovieDetails() {
           <Link to={'reviews'}>Reviews</Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }
