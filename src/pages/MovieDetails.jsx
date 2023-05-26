@@ -25,8 +25,7 @@ export default function MovieDetails() {
 
   const { title, overview, budget, revenue, poster_path, genres, runtime } =
     movieData;
-  console.log(location);
-  console.log(goBack);
+  
   return (
     <div>
       <Link to={goBack.current}>Go back</Link>
