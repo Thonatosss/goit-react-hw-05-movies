@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from 'Constants/constants';
+import { BASE_URL, API_KEY, BASE_IMG_URL } from 'constants/constants';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -11,13 +11,15 @@ export default function Home() {
         const response = await axios.get(
           `${BASE_URL}/trending/movie/day?api_key=${API_KEY}`
         );
-        const filmInfo = response.data.results.map(({poster_path, title, id}) => {
-          return {
-            poster: `${BASE_IMG_URL}w500${poster_path}`,
-            title: title,
-            id: id,
-          };
-        });
+        const filmInfo = response.data.results.map(
+          ({ poster_path, title, id }) => {
+            return {
+              poster: `${BASE_IMG_URL}w500${poster_path}`,
+              title: title,
+              id: id,
+            };
+          }
+        );
 
         setPopularFilms(filmInfo);
       } catch (error) {
@@ -30,7 +32,7 @@ export default function Home() {
   return (
     <div>
       <ul>
-        {popularFilms.map(({id, title, poster}) => {
+        {popularFilms.map(({ id, title, poster }) => {
           return (
             <Link to={`movies/${id}`} key={id}>
               <p>{title}</p>

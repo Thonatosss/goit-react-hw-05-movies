@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { API_KEY, BASE_URL } from 'Constants/constants';
+import { API_KEY, BASE_URL } from 'constants/constants';
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
@@ -23,13 +23,13 @@ export default function Reviews() {
   return (
     <div>
       {reviews &&
-        reviews.map(({id, author, content}) => (
+        reviews.map(({ id, author, content }) => (
           <li key={id}>
             <p>{author}</p>
             <p>{content}</p>
           </li>
         ))}
-        <p>We don't have any reviews for this film:(</p>
+      <p>We don't have any reviews for this film:(</p>
     </div>
   );
 }
