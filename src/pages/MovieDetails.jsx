@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from 'constants/constants';
+import { BASE_URL, API_KEY, BASE_IMG_URL } from '../constants/constants';
 
 export default function MovieDetails() {
   const [movieData, setMovieData] = useState([]);

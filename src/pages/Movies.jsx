@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from 'constants/constants';
+import { BASE_URL, API_KEY, BASE_IMG_URL } from '../constants/constants';
 import { useState } from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 
