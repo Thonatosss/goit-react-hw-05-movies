@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from '../constants/constants';
+import { BASE_URL, API_KEY, BASE_IMG_URL } from '../Constants/constants';
 import { useState } from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 
@@ -45,7 +45,7 @@ export default function Movies() {
         <button type="submit">Search</button>
       </form>
       {filmInfo.map(({ title, id, poster_path }) => (
-        <Link to={`${id}`} key={id} state={{from: location}}>
+        <Link to={`${id}`} key={id} state={{ from: location }}>
           <h1>{title}</h1>
           <img
             src={`${BASE_IMG_URL}w500${poster_path}`}
