@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { BASE_URL, API_KEY, BASE_IMG_URL } from '../Constants/constants';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { FilmList, FilmListItem, FilmTitle } from './Home.styled';
 
 export default function Home() {
   const [popularFilms, setPopularFilms] = useState([]);
@@ -32,16 +33,18 @@ export default function Home() {
 
   return (
     <div>
-      <ul>
+      <FilmList>
         {popularFilms.map(({ id, title, poster }) => {
           return (
-            <Link to={`movies/${id}`} key={id} state={{ from: location }}>
-              <p>{title}</p>
-              <img src={poster} alt="" width="500" height="500" />
-            </Link>
+            <li key={id}>
+              <FilmListItem to={`movies/${id}`} state={{ from: location }}>
+                <FilmTitle>{title}</FilmTitle>
+                <img src={poster} alt="" width="200" height="230" />
+              </FilmListItem>
+            </li>
           );
         })}
-      </ul>
+      </FilmList>
     </div>
   );
 }

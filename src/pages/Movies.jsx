@@ -1,7 +1,14 @@
 import axios from 'axios';
 import { BASE_URL, API_KEY, BASE_IMG_URL } from '../Constants/constants';
 import { useState } from 'react';
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
+import {
+  SearchBtn,
+  SearchFormContainer,
+  SearchFormInput,
+  Form,
+} from './Movies.styled';
+import { FilmList, FilmListItem, FilmTitle } from './Home.styled';
 
 export default function Movies() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,9 +36,9 @@ export default function Movies() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSearchMovie}>
-        <input
+    <SearchFormContainer>
+      <Form onSubmit={handleSearchMovie}>
+        <SearchFormInput
           type="text"
           value={
             searchParams.get('querry') === null
@@ -42,19 +49,23 @@ export default function Movies() {
           placeholder="search a movie"
           onChange={handleSearchQuerry}
         />
-        <button type="submit">Search</button>
-      </form>
-      {filmInfo.map(({ title, id, poster_path }) => (
-        <Link to={`${id}`} key={id} state={{ from: location }}>
-          <h1>{title}</h1>
-          <img
-            src={`${BASE_IMG_URL}w500${poster_path}`}
-            alt=""
-            width="500"
-            height="500"
-          />
-        </Link>
-      ))}
-    </div>
+        <SearchBtn type="submit">Search</SearchBtn>
+      </Form>
+      <FilmList>
+        {filmInfo.map(({ title, id, poster_path }) => (
+          <li key={id}>
+            <FilmListItem to={`${id}`} state={{ from: location }}>
+              <FilmTitle>{title}</FilmTitle>
+              <img
+                src={`${BASE_IMG_URL}w500${poster_path}`}
+                alt=""
+                width="200"
+                height="230"
+              />
+            </FilmListItem>
+          </li>
+        ))}
+      </FilmList>
+    </SearchFormContainer>
   );
 }

@@ -1,5 +1,6 @@
 import { API_KEY, BASE_IMG_URL, BASE_URL } from 'Constants/constants';
 import axios from 'axios';
+import { FilmList, FilmListItem } from 'pages/Home.styled';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -21,20 +22,20 @@ export default function Cast() {
   }, [movieId]);
   return (
     <div>
-      <ul>
+      <FilmList>
         {credits.cast &&
           credits.cast.map(({ id, profile_path, name, character }) => (
-            <li key={id}>
+            <FilmListItem key={id}>
+              {name} ({character})
               <img
                 src={`${BASE_IMG_URL}/w500${profile_path}`}
                 alt=""
                 width="150"
                 height="200"
               />
-              <br /> {name} ({character})
-            </li>
+            </FilmListItem>
           ))}
-      </ul>
+      </FilmList>
     </div>
   );
 }

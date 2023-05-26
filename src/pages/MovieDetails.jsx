@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { BASE_URL, API_KEY, BASE_IMG_URL } from '../Constants/constants';
+import { FilmDetailsContainer } from './MovieDetails.styled';
 
 export default function MovieDetails() {
   const [movieData, setMovieData] = useState([]);
@@ -22,12 +23,14 @@ export default function MovieDetails() {
     }
     GetMovieDetainls(movieId);
   }, [movieId]);
+  console.log(goBack);
+  console.log(location);
 
   const { title, overview, budget, revenue, poster_path, genres, runtime } =
     movieData;
 
   return (
-    <div>
+    <FilmDetailsContainer>
       <Link to={goBack.current}>Go back</Link>
       <h1>{title}</h1>
       <img
@@ -62,6 +65,6 @@ export default function MovieDetails() {
       <Suspense fallback={<div>Loading...</div>}>
         <Outlet />
       </Suspense>
-    </div>
+    </FilmDetailsContainer>
   );
 }
