@@ -23,8 +23,7 @@ export default function MovieDetails() {
     }
     GetMovieDetainls(movieId);
   }, [movieId]);
-  console.log(goBack);
-  console.log(location);
+
 
   const { title, overview, budget, revenue, poster_path, genres, runtime } =
     movieData;
