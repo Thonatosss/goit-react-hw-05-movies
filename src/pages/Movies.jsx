@@ -1,24 +1,31 @@
 import axios from 'axios';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from '../constants/constants';
-import { useState } from 'react';
+import {
+  BASE_URL,
+  API_KEY,
+  BASE_IMG_URL,
+} from 'components/constants/constants';
+import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import {
   SearchBtn,
   SearchFormContainer,
   SearchFormInput,
   Form,
+  MoviesList,
+  MoviesListItem,
+  MoviesTitle,
+  MovieLink,
 } from './Movies.styled';
-import { FilmList, FilmListItem, FilmTitle } from './Home.styled';
 
 export default function Movies() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filmInfo, setFilmInfo] = useState([]);
   const location = useLocation();
 
-  const handleSearchQuerry = event => {
+  const handleSearchQuery = event => {
     event.target.value === ''
       ? setSearchParams({})
-      : setSearchParams({ querry: event.target.value });
+      : setSearchParams({ query: event.target.value });
   };
 
   async function handleSearchMovie(event) {
@@ -26,46 +33,71 @@ export default function Movies() {
     try {
       const response = await axios.get(
         `${BASE_URL}search/movie?query=${searchParams.get(
-          'querry'
+          'query'
         )}&api_key=${API_KEY}`
       );
       setFilmInfo(response.data.results);
+      localStorage.setItem('lastSearchQuery', searchParams.get('query'));
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    const lastSearchQuery = localStorage.getItem('lastSearchQuery');
+    if (lastSearchQuery && filmInfo.length === 0) {
+      async function searchMovie() {
+        try {
+          const response = await axios.get(
+            `${BASE_URL}search/movie?query=${lastSearchQuery}&api_key=${API_KEY}`
+          );
+          setFilmInfo(response.data.results);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      searchMovie();
+    }
+  }, [filmInfo.length]);
+
+  useEffect(() => {
+    const lastSearchQuery = localStorage.getItem('lastSearchQuery');
+    if (lastSearchQuery) {
+      setSearchParams({ query: lastSearchQuery });
+    }
+  }, [setSearchParams]);
 
   return (
     <SearchFormContainer>
       <Form onSubmit={handleSearchMovie}>
         <SearchFormInput
           type="text"
-          value={
-            searchParams.get('querry') === null
-              ? ''
-              : searchParams.get('querry')
-          }
-          name="searchQuerry"
-          placeholder="search a movie"
-          onChange={handleSearchQuerry}
+          value={searchParams.get('query') || ''}
+          name="searchQuery"
+          placeholder="Search a movie"
+          onChange={handleSearchQuery}
         />
         <SearchBtn type="submit">Search</SearchBtn>
       </Form>
-      <FilmList>
+      <MoviesList>
         {filmInfo.map(({ title, id, poster_path }) => (
-          <li key={id}>
-            <FilmListItem to={`${id}`} state={{ from: location }}>
-              <FilmTitle>{title}</FilmTitle>
+          <MoviesListItem key={id}>
+            <MovieLink to={`${id}`} state={{ from: location }}>
+              <MoviesTitle>{title}</MoviesTitle>
               <img
-                src={`${BASE_IMG_URL}w500${poster_path}`}
+                src={
+                  !poster_path
+                    ? `https://www.bartender.com.ua/wp-content/themes/bartender/images/default-thumbnail.jpg`
+                    : `${BASE_IMG_URL}/w500${poster_path}`
+                }
                 alt=""
                 width="200"
                 height="230"
               />
-            </FilmListItem>
-          </li>
+            </MovieLink>
+          </MoviesListItem>
         ))}
-      </FilmList>
+      </MoviesList>
     </SearchFormContainer>
   );
 }

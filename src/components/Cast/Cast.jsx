@@ -1,4 +1,8 @@
-import { API_KEY, BASE_IMG_URL, BASE_URL } from 'constants/constants';
+import {
+  API_KEY,
+  BASE_IMG_URL,
+  BASE_URL,
+} from 'components/constants/constants';
 import axios from 'axios';
 import { FilmList, FilmListItem } from 'pages/Home.styled';
 import { useEffect, useState } from 'react';
@@ -28,7 +32,11 @@ export default function Cast() {
             <FilmListItem key={id}>
               {name} ({character})
               <img
-                src={`${BASE_IMG_URL}/w500${profile_path}`}
+                src={
+                  !profile_path
+                    ? `https://www.bartender.com.ua/wp-content/themes/bartender/images/default-thumbnail.jpg`
+                    : `${BASE_IMG_URL}/w500${profile_path}`
+                }
                 alt=""
                 width="150"
                 height="200"

@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from '../constants/constants';
-import { FilmDetailsContainer } from './MovieDetails.styled';
+import {
+  BASE_URL,
+  API_KEY,
+  BASE_IMG_URL,
+} from 'components/constants/constants';
+import { FilmDetailsContainer, NotFoundTitle } from './MovieDetails.styled';
 
 export default function MovieDetails() {
   const [movieData, setMovieData] = useState([]);
@@ -28,41 +32,52 @@ export default function MovieDetails() {
     movieData;
 
   return (
-    <FilmDetailsContainer>
-      <Link to={goBack.current}>Go back</Link>
-      <h1>{title}</h1>
-      <img
-        src={`${BASE_IMG_URL}/w500${poster_path}`}
-        width="350"
-        height="400"
-        alt=""
-      />
-      <h2>Overview</h2>
-      <p>{overview}</p>
-      <p>
-        Budget: {budget}$ <br />
-        Revenue: {revenue}$
-      </p>
+    <div>
+      {movieData.length === 0 ? (
+        <NotFoundTitle>Something went wrong :( Try another movie</NotFoundTitle>
+      ) : (
+        <FilmDetailsContainer>
+          <Link to={goBack.current}>Go back</Link>
+          <h1>{title}</h1>
+          <img
+            src={
+              !poster_path
+                ? `https://www.bartender.com.ua/wp-content/themes/bartender/images/default-thumbnail.jpg`
+                : `${BASE_IMG_URL}/w500${poster_path}`
+            }
+            width="350"
+            height="400"
+            alt=""
+          />
 
-      <h2>Genres</h2>
-      <ul>
-        {genres &&
-          genres.map(({ id, name }) => {
-            return <li key={id}>{name}</li>;
-          })}
-      </ul>
-      <p>Runtime: {runtime} min</p>
-      <ul>
-        <li>
-          <Link to={'cast'}>Credits</Link>
-        </li>
-        <li>
-          <Link to={'reviews'}>Reviews</Link>
-        </li>
-      </ul>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
-    </FilmDetailsContainer>
+          <h2>Overview</h2>
+          <p>{overview}</p>
+          <p>
+            Budget: {budget}$ <br />
+            Revenue: {revenue}$
+          </p>
+
+          <h2>Genres</h2>
+          <ul>
+            {genres &&
+              genres.map(({ id, name }) => {
+                return <li key={id}>{name}</li>;
+              })}
+          </ul>
+          <p>Runtime: {runtime} min</p>
+          <ul>
+            <li>
+              <Link to={'cast'}>Credits</Link>
+            </li>
+            <li>
+              <Link to={'reviews'}>Reviews</Link>
+            </li>
+          </ul>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Outlet />
+          </Suspense>
+        </FilmDetailsContainer>
+      )}
+    </div>
   );
 }

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 
 const SearchFormContainer = styled.div`
@@ -30,5 +31,47 @@ padding: 0 10px;
 `
 
 
+const MoviesList = styled.ul`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  list-style: none;
+`;
 
-export { SearchFormContainer, SearchFormInput, SearchBtn, Form };
+const MoviesListItem = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #c9d6df;
+  width: 230px;
+  height: 320px;
+`;
+
+const MoviesTitle = styled.h2`
+  font-size: 20px;
+  text-align: center;
+  color: black;
+`;
+
+const MovieLink = styled(Link)`
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+`;
+
+
+export {
+  SearchFormContainer,
+  SearchFormInput,
+  SearchBtn,
+  Form,
+  MoviesTitle,
+  MoviesList,
+  MoviesListItem,
+  MovieLink,
+};
