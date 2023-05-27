@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from '../Constants/constants';
+import { BASE_URL, API_KEY, BASE_IMG_URL } from '../constants/constants';
 import { useLocation } from 'react-router-dom';
 import { FilmList, FilmListItem, FilmTitle } from './Home.styled';
 

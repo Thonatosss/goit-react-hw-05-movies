@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { BASE_URL, API_KEY, BASE_IMG_URL } from '../Constants/constants';
+import { BASE_URL, API_KEY, BASE_IMG_URL } from '../constants/constants';
 import { FilmDetailsContainer } from './MovieDetails.styled';
 
 export default function MovieDetails() {
@@ -23,7 +23,6 @@ export default function MovieDetails() {
     }
     GetMovieDetainls(movieId);
   }, [movieId]);
-
 
   const { title, overview, budget, revenue, poster_path, genres, runtime } =
     movieData;

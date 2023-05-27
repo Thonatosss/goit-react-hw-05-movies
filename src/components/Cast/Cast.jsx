@@ -1,4 +1,4 @@
-import { API_KEY, BASE_IMG_URL, BASE_URL } from 'Constants/constants';
+import { API_KEY, BASE_IMG_URL, BASE_URL } from 'constants/constants';
 import axios from 'axios';
 import { FilmList, FilmListItem } from 'pages/Home.styled';
 import { useEffect, useState } from 'react';

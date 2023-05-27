@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { API_KEY, BASE_URL } from 'Constants/constants';
+import { API_KEY, BASE_URL } from 'constants/constants';
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
