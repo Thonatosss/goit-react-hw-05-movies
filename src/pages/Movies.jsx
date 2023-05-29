@@ -4,7 +4,7 @@ import {
   API_KEY,
   BASE_IMG_URL,
 } from 'components/constants/constants';
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import {
   SearchBtn,
@@ -21,32 +21,34 @@ export default function Movies() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filmInfo, setFilmInfo] = useState([]);
   const location = useLocation();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchQuery = event => {
-    event.target.value === ''
-      ? setSearchParams({})
-      : setSearchParams({ query: event.target.value });
+    setSearchQuery(event.target.value);
   };
 
   async function handleSearchMovie(event) {
     event.preventDefault();
-    try {
-      const response = await axios.get(
-        `${BASE_URL}search/movie?query=${searchParams.get(
-          'query'
-        )}&api_key=${API_KEY}`
-      );
-      setFilmInfo(response.data.results);
-      localStorage.setItem('lastSearchQuery', searchParams.get('query'));
-      console.log(searchParams.get('query'));
-    } catch (error) {
-      console.log(error);
+
+    setSearchParams({ query: searchQuery });
+    if (searchParams.get('query') !== null) {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}search/movie?query=${searchParams.get(
+            'query'
+          )}&api_key=${API_KEY}`
+        );
+        setFilmInfo(response.data.results);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
+
   useEffect(() => {
-    console.log(searchParams.get('query'));
-    if (searchParams.get('query') !== null) {
-      async function handleSearchMovie() {
+
+    async function handleSearchMovie() {
+      if (searchParams.get('query') !== null) {
         try {
           const response = await axios.get(
             `${BASE_URL}search/movie?query=${searchParams.get(
@@ -54,21 +56,19 @@ export default function Movies() {
             )}&api_key=${API_KEY}`
           );
           setFilmInfo(response.data.results);
-          localStorage.setItem('lastSearchQuery', searchParams.get('query'));
         } catch (error) {
           console.log(error);
         }
       }
-      handleSearchMovie();
     }
-  }, []);
-
+    handleSearchMovie();
+  }, [searchParams]);
   return (
     <SearchFormContainer>
       <Form onSubmit={handleSearchMovie}>
         <SearchFormInput
           type="text"
-          value={searchParams.get('query') || ''}
+          value={searchQuery}
           name="searchQuery"
           placeholder="Search a movie"
           onChange={handleSearchQuery}
