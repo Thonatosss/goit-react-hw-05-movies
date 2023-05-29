@@ -4,7 +4,7 @@ import {
   API_KEY,
   BASE_IMG_URL,
 } from 'components/constants/constants';
-import { useState, useEffect } from 'react';
+import { useEffect, useState} from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import {
   SearchBtn,
@@ -38,34 +38,30 @@ export default function Movies() {
       );
       setFilmInfo(response.data.results);
       localStorage.setItem('lastSearchQuery', searchParams.get('query'));
+      console.log(searchParams.get('query'));
     } catch (error) {
       console.log(error);
     }
   }
-
   useEffect(() => {
-    const lastSearchQuery = localStorage.getItem('lastSearchQuery');
-    if (lastSearchQuery && filmInfo.length === 0) {
-      async function searchMovie() {
+    console.log(searchParams.get('query'));
+    if (searchParams.get('query') !== null) {
+      async function handleSearchMovie() {
         try {
           const response = await axios.get(
-            `${BASE_URL}search/movie?query=${lastSearchQuery}&api_key=${API_KEY}`
+            `${BASE_URL}search/movie?query=${searchParams.get(
+              'query'
+            )}&api_key=${API_KEY}`
           );
           setFilmInfo(response.data.results);
+          localStorage.setItem('lastSearchQuery', searchParams.get('query'));
         } catch (error) {
           console.log(error);
         }
       }
-      searchMovie();
+      handleSearchMovie();
     }
-  }, [filmInfo.length]);
-
-  useEffect(() => {
-    const lastSearchQuery = localStorage.getItem('lastSearchQuery');
-    if (lastSearchQuery) {
-      setSearchParams({ query: lastSearchQuery });
-    }
-  }, [setSearchParams]);
+  }, []);
 
   return (
     <SearchFormContainer>
